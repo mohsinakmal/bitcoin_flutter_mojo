@@ -1,13 +1,44 @@
 import 'package:flutter/material.dart';
-
+import 'coin_data.dart';
+import 'package:flutter/cupertino.dart';
 class PriceScreen extends StatefulWidget {
   @override
   _PriceScreenState createState() => _PriceScreenState();
 }
 
 class _PriceScreenState extends State<PriceScreen> {
+
+  List<DropdownMenuItem> getCurrency(){
+
+   List<DropdownMenuItem<String>> dropDownItems = [];
+
+    for(String currency in currenciesList){
+      //print(currency);
+      var itemsList = DropdownMenuItem(
+        child: Text(currency),
+        value: currency,
+      );
+      dropDownItems.add(itemsList);
+    }
+    return dropDownItems;
+  }
+
+  List<Widget> getCupertinoItems(){
+
+    List<Widget> cupertinoItems = [];
+
+    for(String getCurrency in currenciesList){
+      var widgetList = Text(getCurrency);
+      cupertinoItems.add(widgetList);
+    }
+    return cupertinoItems;
+  }
+
+  String selectedCurrency = 'USD';
+
   @override
   Widget build(BuildContext context) {
+    getCurrency();
     return Scaffold(
       appBar: AppBar(
         title: Text('🤑 Coin Ticker'),
@@ -42,10 +73,28 @@ class _PriceScreenState extends State<PriceScreen> {
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 30.0),
             color: Colors.lightBlue,
-            child: null,
+            child: CupertinoPicker(
+              itemExtent: 32.0,
+              onSelectedItemChanged: (selectedIndex){
+                print(selectedIndex);
+              },
+              children: getCupertinoItems(),
+            ),
           ),
         ],
       ),
     );
   }
 }
+
+// DropdownButton<String>
+// (
+// value: selectedCurrency,
+// items: getCurrency(),
+// onChanged: (value){
+// setState(() {
+// selectedCurrency = value;
+// });
+//
+// },
+// ),
